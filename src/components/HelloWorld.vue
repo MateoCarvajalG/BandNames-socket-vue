@@ -15,7 +15,7 @@ export default class HelloWorld extends Vue {
   name='mateo'
 
   updated() {
-    console.log('se actualizo el componente', this.name);
+    console.log('se actualizo el hello world', this.name);
   }
 }
 </script>
