@@ -7,21 +7,23 @@
       <td>
         <button
           class="btn-plus"
+          @click="$emit('addVote',band.id)"
         >+1</button>
       </td>
       <td>
         <input
             type="text"
             class="form-control"
-            :value="band.name"
+            v-model="band.name"
             aria-label="close"
+            @blur="$emit('changeName', band.name, band.id)"
         >
       </td>
       <td><h3>{{band.votes}}</h3></td>
       <td>
         <button
           class="btn-delete"
-          @click="deleteBand(band.id)"
+          @click="$emit('deleteBand',band.id)"
         >Borrar</button>
       </td>
     </tr>

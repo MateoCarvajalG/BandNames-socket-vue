@@ -10,9 +10,17 @@
     <hr>
     <div class="container">
         <div class="list-bands">
-          <BandList :bands="bands"/>
+          <BandList
+            :bands="bands"
+            @addVote="addVote"
+            @deleteBand="deleteBand"
+            @changeName="changeName"
+          />
         </div>
         <div class="add-band">
+          <AddBand
+            @addBand="addBand"
+          />
         </div>
     </div>
     <div >
@@ -25,11 +33,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import io from 'socket.io-client';
 import HelloWorld from './components/HelloWorld.vue';
 import BandList from './components/bandList.vue';
+import AddBand from './components/AddBand.vue';
 
 @Component({
   components: {
     HelloWorld,
     BandList,
+    AddBand,
   },
 })
 export default class App extends Vue {
@@ -50,6 +60,22 @@ export default class App extends Vue {
     this.socket.on('disconnect', () => {
       this.online = false;
     });
+  }
+
+  addVote(id) {
+    this.socket.emit('votar-banda', id); // incrementa en 1 el voto desde el backend, usando websockets
+  }
+
+  deleteBand(id) {
+    this.socket.emit('delete-band', id); // bora la banda dependiendiendo el id desde el back usando websockets
+  }
+
+  changeName(newName, id) {
+    this.socket.emit('change-name', { id, newName }); // cambia el nombre de la banda desde el back usando websoclket
+  }
+
+  addBand(name) {
+    this.socket.emit('create-band', { name });
   }
 }
 </script>
